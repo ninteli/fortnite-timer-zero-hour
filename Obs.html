@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fortnite Timer Overlay</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Russo+One&display=swap" rel="stylesheet">
+    <style>
+        /* Le fond est transparent pour OBS */
+        html, body {
+            background-color: transparent;
+            overflow: hidden;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            font-family: 'Russo One', sans-serif;
+        }
+
+        /* Optionnel : Fond vert pour Chroma Key si la transparence bug (décommenter si besoin) */
+        /* body { background-color: #00FF00; } */
+
+        /* Conteneur principal centré */
+        .overlay-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            width: 100%;
+        }
+
+        /* Style des chiffres */
+        .digit {
+            font-size: 5rem; /* Très grand pour être réduit dans OBS si besoin */
+            line-height: 1;
+            color: white;
+            /* Ombre portée solide pour lisibilité sur le jeu */
+            text-shadow: 
+                3px 3px 0 #000,
+                -1px -1px 0 #000,  
+                1px -1px 0 #000,
+                -1px 1px 0 #000,
+                1px 1px 0 #000,
+                0 0 20px rgba(0, 243, 255, 0.6); /* Glow Cyan */
+        }
+
+        /* Style des labels (Jours, Heures...) */
+        .label {
+            font-size: 1rem;
+            text-transform: uppercase;
+            color: #00f3ff; /* Cyan Fortnite */
+            text-shadow: 2px 2px 0 #000;
+            margin-top: 0.5rem;
+            letter-spacing: 0.1em;
+        }
+
+        /* Effet de Glitch léger sur le titre */
+        .title {
+            font-size: 2.5rem;
+            color: white;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+            text-shadow: 3px 3px 0 #bd00ff; /* Ombre Violette */
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.02); text-shadow: 3px 3px 0 #bd00ff, 0 0 20px rgba(189, 0, 255, 0.8); }
+            100% { transform: scale(1); }
+        }
+
+        /* Grille du timer */
+        .timer-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+            text-align: center;
+        }
+
+        /* Style spécifique pour le séparateur si on veut un look digital (optionnel) */
+        .separator {
+            display: none; /* Masqué par défaut pour ce design */
+        }
+    </style>
+</head>
+<body>
+
+    <div class="overlay-container">
+        <!-- Titre (Peut être masqué dans OBS avec la touche Alt + Rognage si tu veux juste les chiffres) -->
+        <div class="title">HEURE ZÉRO</div>
+
+        <div class="timer-grid">
+            <!-- Jours -->
+            <div class="flex flex-col items-center">
+                <span id="days" class="digit">00</span>
+                <span class="label">Jours</span>
+            </div>
+            <!-- Heures -->
+            <div class="flex flex-col items-center">
+                <span id="hours" class="digit">00</span>
+                <span class="label">Heures</span>
+            </div>
+            <!-- Minutes -->
+            <div class="flex flex-col items-center">
+                <span id="minutes" class="digit">00</span>
+                <span class="label">Min</span>
+            </div>
+            <!-- Secondes -->
+            <div class="flex flex-col items-center">
+                <span id="seconds" class="digit text-cyan-400">00</span>
+                <span class="label">Sec</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        /* --- LOGIQUE DU COMPTE À REBOURS --- */
+        // Cible : 29 Novembre 2025 à 20h00 Paris (CET)
+        const targetDate = new Date("2025-11-29T20:00:00+01:00").getTime();
+
+        const daysEl = document.getElementById('days');
+        const hoursEl = document.getElementById('hours');
+        const minutesEl = document.getElementById('minutes');
+        const secondsEl = document.getElementById('seconds');
+
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const distance = targetDate - now;
+
+            if (distance < 0) {
+                document.querySelector('.timer-grid').innerHTML = '<div class="digit" style="grid-column: span 4; font-size: 4rem; color: #bd00ff;">EN LIGNE</div>';
+                document.querySelector('.title').style.display = 'none';
+                return;
+            }
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            daysEl.innerText = days < 10 ? "0" + days : days;
+            hoursEl.innerText = hours < 10 ? "0" + hours : hours;
+            minutesEl.innerText = minutes < 10 ? "0" + minutes : minutes;
+            secondsEl.innerText = seconds < 10 ? "0" + seconds : seconds;
+        }
+
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+    </script>
+</body>
+</html>
+
