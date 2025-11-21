@@ -35,8 +35,8 @@ Vous pouvez intégrer le timer directement via l'URL sans télécharger les fich
 ## ⚙️ Personnalisation
 Vous pouvez modifier les paramètres dans les fichiers .html :
  * Changer la date cible : Cherchez la variable targetDate dans le script.
-   // Format: AAAA-MM-JJTHH:MM:SS+Fuseau
-const targetDate = new Date("2025-11-29T20:00:00+01:00").getTime();
+ ```  // Format: AAAA-MM-JJTHH:MM:SS+Fuseau
+const targetDate = new Date("2025-11-29T20:00:00+01:00").getTime();```
 
 ## 🤝 Contribuer
 Les contributions sont les bienvenues ! N'hésitez pas à ouvrir une "Issue" ou à proposer une "Pull Request" pour améliorer les animations ou le code.
@@ -44,4 +44,5 @@ Les contributions sont les bienvenues ! N'hésitez pas à ouvrir une "Issue" ou 
 ## ⚠️ Disclaimer / Droits
 Ce projet est un site de fan non officiel. Il n'est pas affilié, approuvé ou sponsorisé par Epic Games.
 Les éléments graphiques et noms (Fortnite, Zero Point) sont la propriété d'Epic Games.
-Code avec ❤️ par Ninteli
+
+### Code avec ❤️ par Ninteli
