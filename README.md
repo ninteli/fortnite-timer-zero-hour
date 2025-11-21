@@ -37,6 +37,7 @@ Vous pouvez modifier les paramètres dans les fichiers .html :
  * Changer la date cible : Cherchez la variable targetDate dans le script.
  ```  // Format: AAAA-MM-JJTHH:MM:SS+Fuseau
 const targetDate = new Date("2025-11-29T20:00:00+01:00").getTime();
+```
 
 ## 🤝 Contribuer
 Les contributions sont les bienvenues ! N'hésitez pas à ouvrir une "Issue" ou à proposer une "Pull Request" pour améliorer les animations ou le code.
