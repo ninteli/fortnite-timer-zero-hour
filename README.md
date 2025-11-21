@@ -11,7 +11,7 @@ Ce projet a été conçu pour être utilisé comme page d'accueil pour les fans 
  * ⚡ Effets Visuels : Titres avec effets "Glitch" et néons CSS.
  * 📱 100% Responsive : S'adapte parfaitement aux mobiles, tablettes et écrans larges.
 ## 🚀 Démo / Aperçu
-Vous pouvez voir le projet en direct ici : [lien bientôt disponible]
+Vous pouvez voir le projet en direct ici : https://ninteli.github.io/fortnite-timer-zero-hour/
 ## 🛠️ Installation et Utilisation
 Ce projet est une page statique (HTML/CSS/JS pur). Aucune installation de serveur (Node.js, PHP, etc.) n'est nécessaire.
  * Cloner le dépôt :
