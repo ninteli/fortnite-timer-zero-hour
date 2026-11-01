@@ -3,37 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fortnite: Heure Zéro - Final</title>
+    <title>Fortnite : Compte à Rebours d'Événement</title>
+    
+    <!-- Framework Tailwind CSS & Polices Google -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Russo+One&family=Inter:wght@400;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    
     <style>
-        /* --- BASE ATMOSPHERE --- */
+        /* ==========================================================================
+           1. STYLES DE BASE & TYPOGRAPHIE
+           ========================================================================== */
         body {
             font-family: 'Inter', sans-serif;
-            /* Dégradé de fond visible si le canvas met du temps à charger */
             background: radial-gradient(circle at center, #2e1065 0%, #0f0518 60%, #000000 100%);
             overflow-x: hidden;
-            color: white;
+            color: #ffffff;
             min-height: 100vh;
             margin: 0;
         }
-        
-        h1, h2, h3, .digit, .event-description {
+
+        h1, h2, h3, .digit, .event-font {
             font-family: 'Russo One', sans-serif;
         }
 
-        /* --- CRACK EFFECT ANIMATION --- */
+        /* ==========================================================================
+           2. EFFET VISUEL GLITCH / FISSURE (TITRE)
+           ========================================================================== */
         .crack-effect {
             position: relative;
             display: inline-block;
             color: white;
         }
 
-        .crack-effect::before, .crack-effect::after {
+        /* Clone supérieur et inférieur pour l'effet de décalage */
+        .crack-effect::before, 
+        .crack-effect::after {
             content: attr(data-text);
             position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: #0f0518; /* Doit matcher le fond sombre */
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%;
+            background: #0f0518;
             color: #fff;
             overflow: hidden;
             pointer-events: none;
@@ -88,9 +99,11 @@
             43% { filter: blur(0); transform: scale(1); color: white; }
         }
 
-        /* --- PULSE --- */
-        .zero-pulse {
-            background: linear-gradient(180deg, #fff 0%, #d946ef 100%);
+        /* ==========================================================================
+           3. EFFETS DE PULSATION & GLASSMORPHISME (INTERFACE)
+           ========================================================================== */
+        .title-pulse {
+            background: linear-gradient(180deg, #ffffff 0%, #d946ef 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             filter: drop-shadow(0 0 10px rgba(189, 0, 255, 0.5));
@@ -102,31 +115,32 @@
             100% { filter: drop-shadow(0 0 25px rgba(189, 0, 255, 0.9)); }
         }
 
-        /* --- UI GLASS --- */
         .glass-panel {
-            background: rgba(20, 10, 40, 0.5);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
-        }
-        
-        .description-box {
-            border-left: 4px solid #d946ef;
-            background: linear-gradient(90deg, rgba(217, 70, 239, 0.1) 0%, transparent 100%);
+            background: rgba(20, 10, 40, 0.55);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
         }
 
-        /* --- VIDEO CARD STYLE --- */
+        .description-box {
+            border-left: 4px solid #d946ef;
+            background: linear-gradient(90deg, rgba(217, 70, 239, 0.12) 0%, transparent 100%);
+        }
+
+        /* ==========================================================================
+           4. CARTE VIDÉO (LECTEUR TRAILER)
+           ========================================================================== */
         .video-card {
             position: relative;
-            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+            padding-bottom: 56.25%; /* Ratio 16:9 standard */
             height: 0;
             overflow: hidden;
             border-radius: 0.5rem;
-            background-color: #000;
+            background-color: #000000;
             cursor: pointer;
-            group: true;
         }
+
         .video-card img {
             position: absolute;
             top: 0;
@@ -134,75 +148,78 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
-            opacity: 0.8;
-            transition: opacity 0.3s, transform 0.5s;
+            opacity: 0.82;
+            transition: opacity 0.3s ease, transform 0.5s ease;
         }
+
         .video-card:hover img {
             opacity: 0.6;
-            transform: scale(1.05);
+            transform: scale(1.04);
         }
+
         .play-button {
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 60px;
-            height: 60px;
-            background: rgba(217, 70, 239, 0.8);
+            width: 64px;
+            height: 64px;
+            background: rgba(217, 70, 239, 0.85);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: transform 0.3s, background 0.3s;
-            box-shadow: 0 0 20px rgba(217, 70, 239, 0.5);
+            transition: transform 0.3s ease, background 0.3s ease;
+            box-shadow: 0 0 22px rgba(217, 70, 239, 0.6);
         }
+
         .video-card:hover .play-button {
-            transform: translate(-50%, -50%) scale(1.2);
+            transform: translate(-50%, -50%) scale(1.15);
             background: rgba(217, 70, 239, 1);
         }
     </style>
 </head>
-<body class="flex flex-col items-center justify-center relative selection:bg-fuchsia-600 selection:text-white overflow-x-hidden">
 
-    <!-- Canvas z-0 -->
-    <canvas id="fogCanvas" class="absolute top-0 left-0 w-full h-full z-0 fixed"></canvas>
+<body class="flex flex-col items-center justify-center relative selection:bg-fuchsia-600 selection:text-white">
 
-    <!-- Vignette Overlay z-0 -->
-    <div class="absolute top-0 left-0 w-full h-full bg-radial-gradient(circle at 50% 50%, transparent 0%, rgba(0,0,0,0.3) 60%, rgba(0,0,0,0.8) 100%) z-0 pointer-events-none fixed"></div>
+    <!-- FOND CANVAS 1 : Brume & Éclairs dynamiques -->
+    <canvas id="fogCanvas" class="fixed top-0 left-0 w-full h-full z-0 pointer-events-none"></canvas>
 
-    <!-- Main Content z-10 -->
-    <div class="z-10 text-center px-4 w-full max-w-5xl pb-12 pt-8 relative">
-        
-        <!-- Status Badge -->
-        <div class="mb-6">
+    <!-- FOND COUCHE 2 : Vignettage assombrissant les bords -->
+    <div class="fixed top-0 left-0 w-full h-full bg-radial-gradient(circle at 50% 50%, transparent 0%, rgba(0,0,0,0.3) 60%, rgba(0,0,0,0.85) 100%) z-0 pointer-events-none"></div>
+
+    <!-- CONTENEUR PRINCIPAL -->
+    <main class="z-10 text-center px-4 w-full max-w-5xl pb-12 pt-8 relative">
+
+        <!-- 1. BADGE D'ÉTAT -->
+        <header class="mb-6">
             <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-fuchsia-500/30 bg-black/40 backdrop-blur-md text-fuchsia-200 text-xs md:text-sm font-mono uppercase tracking-widest shadow-[0_0_15px_rgba(217,70,239,0.3)]">
-                <span class="w-2 h-2 rounded-full bg-fuchsia-500 animate-ping"></span>
-                Instabilité Dimensionnelle
+                <span class="w-2.5 h-2.5 rounded-full bg-fuchsia-500 animate-ping"></span>
+                <span id="ui-status-badge">Chargement...</span>
             </span>
-        </div>
+        </header>
 
-        <!-- LOGO -->
-        <h1 class="mb-8 text-5xl md:text-9xl font-black uppercase tracking-tighter leading-none drop-shadow-2xl">
-            <div class="crack-effect" data-text="HEURE"><span>HEURE</span></div>
-            <div class="zero-pulse inline-block">ZÉRO</div>
+        <!-- 2. TITRE PRINCIPAL -->
+        <h1 id="ui-main-title" class="mb-8 text-5xl md:text-9xl font-black uppercase tracking-tighter leading-none drop-shadow-2xl">
+            <!-- Rempli automatiquement par la configuration JavaScript -->
         </h1>
 
-        <!-- DESCRIPTION -->
-        <div class="mb-12 max-w-3xl mx-auto glass-panel p-6 rounded-lg description-box text-left transform hover:scale-[1.01] transition-transform duration-500">
+        <!-- 3. ZONE DE TRANSMISSION / DESCRIPTION -->
+        <section class="mb-12 max-w-3xl mx-auto glass-panel p-6 rounded-lg description-box text-left transform hover:scale-[1.01] transition-transform duration-300">
             <p class="text-gray-100 font-mono text-sm md:text-lg leading-relaxed">
-                <strong class="text-fuchsia-300 block mb-2 uppercase tracking-wider">// TRANSMISSION ENTRANTE...</strong>
-                L'affrontement ultime approche. Une <span class="text-fuchsia-400 font-bold">présence obscure</span> émerge pour consumer la réalité. Rejoignez le combat dans le plus grand événement annuel de l'histoire.
+                <strong id="ui-transmission-tag" class="text-fuchsia-300 block mb-2 uppercase tracking-wider">// TRANSMISSION ENTRANTE...</strong>
+                <span id="ui-event-description">Chargement des données...</span>
             </p>
-        </div>
+        </section>
 
-        <!-- COUNTDOWN -->
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
-            <!-- Days -->
+        <!-- 4. GRILLE DU COMPTE À REBOURS -->
+        <section class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12" aria-label="Compte à rebours de l'événement">
+            <!-- Jours -->
             <div class="glass-panel p-5 rounded-xl flex flex-col items-center justify-center group">
                 <span id="days" class="digit text-4xl md:text-6xl font-bold text-white mb-1 group-hover:text-fuchsia-300 transition-colors">00</span>
                 <span class="text-xs uppercase tracking-[0.2em] text-gray-400 font-bold">Jours</span>
             </div>
-            <!-- Hours -->
+            <!-- Heures -->
             <div class="glass-panel p-5 rounded-xl flex flex-col items-center justify-center group">
                 <span id="hours" class="digit text-4xl md:text-6xl font-bold text-white mb-1 group-hover:text-fuchsia-300 transition-colors">00</span>
                 <span class="text-xs uppercase tracking-[0.2em] text-gray-400 font-bold">Heures</span>
@@ -212,18 +229,181 @@
                 <span id="minutes" class="digit text-4xl md:text-6xl font-bold text-white mb-1 group-hover:text-fuchsia-300 transition-colors">00</span>
                 <span class="text-xs uppercase tracking-[0.2em] text-gray-400 font-bold">Minutes</span>
             </div>
-            <!-- Seconds -->
+            <!-- Secondes (mise en évidence) -->
             <div class="glass-panel p-5 rounded-xl flex flex-col items-center justify-center border-fuchsia-500/40 shadow-[0_0_20px_rgba(189,0,255,0.15)] relative overflow-hidden">
                 <div class="absolute top-0 left-0 w-full h-1 bg-fuchsia-500 shadow-[0_0_10px_#d946ef]"></div>
                 <span id="seconds" class="digit text-4xl md:text-6xl font-bold text-fuchsia-300 mb-1 relative z-10">00</span>
                 <span class="text-xs uppercase tracking-[0.2em] text-fuchsia-500/80 font-bold relative z-10">Secondes</span>
             </div>
-        </div>
+        </section>
 
-        <!-- TRAILER LINK (FIX ERROR 153) -->
-        <div class="mb-12 max-w-4xl mx-auto w-full">
-            <h3 class="text-fuchsia-300/70 text-sm uppercase tracking-[0.3em] mb-4 font-bold flex items-center justify-center gap-2">
+        <!-- 5. BANDE-ANNONCE (YOUTUBE EMBED/LINK) -->
+        <section id="trailer-section" class="mb-12 max-w-4xl mx-auto w-full">
+            <h2 class="text-fuchsia-300/70 text-sm uppercase tracking-[0.3em] mb-4 font-bold flex items-center justify-center gap-2">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                Bande-Annonce Officielle
+            </h2>
+            <div class="glass-panel p-2 rounded-xl shadow-[0_0_30px_rgba(189,0,255,0.1)]">
+                <a id="trailer-link" href="#" target="_blank" rel="noopener noreferrer" class="block video-card" aria-label="Regarder la bande-annonce sur YouTube">
+                    <img id="trailer-thumb" src="" alt="Miniature du trailer officiel">
+                    <div class="play-button">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+                        </svg>
+                    </div>
+                </a>
+            </div>
+            <p class="mt-2 text-xs text-gray-500 font-mono uppercase">Cliquez pour regarder sur YouTube</p>
+        </section>
+
+        <!-- 6. PIED DE PAGE & HORLOGE LOCALE -->
+        <footer class="flex flex-col items-center">
+            <div class="flex flex-col md:flex-row justify-center items-center gap-6 text-xs font-mono text-gray-400 bg-black/30 py-2.5 px-6 rounded-full inline-flex backdrop-blur-sm border border-white/5">
+                <div class="flex items-center gap-2">
+                    <span>DÉBUT PRÉVU :</span>
+                    <span id="ui-event-date-label" class="text-white font-bold">--</span>
+                </div>
+                <div class="hidden md:block text-gray-600">|</div>
+                <div class="flex items-center gap-2">
+                    <span>HEURE LOCALE :</span>
+                    <span id="local-time-display" class="text-fuchsia-400 font-semibold">--:--</span>
+                </div>
+            </div>
+
+            <div id="ui-credits" class="mt-8 mb-4 opacity-50 text-[10px] uppercase tracking-widest text-fuchsia-200">
+                PROJET COMMUNAUTAIRE • FAN SITE
+            </div>
+        </footer>
+
+    </main>
+
+    <!-- ==========================================================================
+         SCRIPT D'ANIMATION ET LOGIQUE DU SITE
+         ========================================================================== -->
+    <script>
+        /**
+         * ========================================================================
+         * ⚙️ PANNEAU DE CONFIGURATION SIMPLIFIÉ (MODIFIEZ VOS VALEURS ICI)
+         * ========================================================================
+         * Il vous suffit de changer les champs ci-dessous pour adapter la page 
+         * à n'importe quel nouvel événement Fortnite en moins d'une minute !
+         */
+        const EVENT_CONFIG = {
+            // 1. Date et Heure cible au format standard ISO (Année-Mois-JourTHheure:Minute:Seconde+Fuseau)
+            // Ex: "2026-11-29T20:00:00+01:00" (+01:00 correspond à l'heure normale de Paris/Bruxelles)
+            targetDateISO: "2026-11-29T20:00:00+01:00",
+
+            // 2. Textes du Titre (Première partie avec l'effet glitch, deuxième partie avec pulsation)
+            titlePart1: "HEURE",
+            titlePart2: "ZÉRO",
+
+            // 3. Étiquettes d'ambiance et description
+            statusBadge: "Instabilité Dimensionnelle",
+            transmissionTag: "// TRANSMISSION ENTRANTE...",
+            descriptionHTML: "L'affrontement ultime approche. Une <span class='text-fuchsia-400 font-bold'>présence obscure</span> émerge pour consumer la réalité. Rejoignez le combat dans le plus grand événement annuel de l'histoire.",
+            
+            // 4. Libellé affiché dans le badge du pied de page
+            dateBadgeText: "29 NOVEMBRE • 20H00 CET",
+
+            // 5. Message affiché lorsque le minuteur atteint zéro
+            liveMessage: "ÉVÉNEMENT EN DIRECT",
+
+            // 6. Vidéo YouTube (Indiquez simplement l'identifiant de la vidéo)
+            // Exemple : si le lien est https://www.youtube.com/watch?v=3YziM5QMLu4 -> l'ID est "3YziM5QMLu4"
+            youtubeVideoId: "3YziM5QMLu4",
+
+            // 7. Signature ou crédits
+            credits: "NINTELI • FAN SITE",
+
+            // 8. Palette de couleurs des nuages d'ambiance (format RGB)
+            nebulaColors: [
+                '147, 51, 234', // Violet électrique
+                '192, 38, 211', // Fuchsia
+                '126, 34, 206', // Pourpre sombre
+                '76, 29, 149'   // Indigo profond
+            ]
+        };
+
+        /* ==========================================================================
+           INITIALISATION DE L'INTERFACE UTILISATEUR (UI)
+           ========================================================================== */
+        document.addEventListener('DOMContentLoaded', () => {
+
+            // Injection des textes configurés
+            document.getElementById('ui-status-badge').textContent = EVENT_CONFIG.statusBadge;
+            document.getElementById('ui-transmission-tag').textContent = EVENT_CONFIG.transmissionTag;
+            document.getElementById('ui-event-description').innerHTML = EVENT_CONFIG.descriptionHTML;
+            document.getElementById('ui-event-date-label').textContent = EVENT_CONFIG.dateBadgeText;
+            document.getElementById('ui-credits').textContent = EVENT_CONFIG.credits;
+
+            // Titre en deux blocs dynamiques
+            const titleContainer = document.getElementById('ui-main-title');
+            titleContainer.innerHTML = `
+                <div class="crack-effect" data-text="${EVENT_CONFIG.titlePart1}">
+                    <span>${EVENT_CONFIG.titlePart1}</span>
+                </div>
+                <div class="title-pulse inline-block ml-2">${EVENT_CONFIG.titlePart2}</div>
+            `;
+
+            // Configuration du lien et de la miniature YouTube
+            const videoCard = document.getElementById('trailer-link');
+            const videoThumb = document.getElementById('trailer-thumb');
+            if (EVENT_CONFIG.youtubeVideoId) {
+                videoCard.href = `https://www.youtube.com/watch?v=${EVENT_CONFIG.youtubeVideoId}`;
+                videoThumb.src = `https://img.youtube.com/vi/${EVENT_CONFIG.youtubeVideoId}/maxresdefault.jpg`;
+            } else {
+                document.getElementById('trailer-section').style.display = 'none';
+            }
+
+            /* ======================================================================
+               LOGIQUE DU COMPTE À REBOURS
+               ====================================================================== */
+            const daysEl = document.getElementById('days');
+            const hoursEl = document.getElementById('hours');
+            const minutesEl = document.getElementById('minutes');
+            const secondsEl = document.getElementById('seconds');
+            const localTimeDisplay = document.getElementById('local-time-display');
+
+            const targetTimestamp = new Date(EVENT_CONFIG.targetDateISO).getTime();
+
+            // Formatage avec zéro initial (ex: 7 -> "07")
+            const padZero = (num) => num.toString().padStart(2, '0');
+
+            function updateTimer() {
+                const now = Date.now();
+                const difference = targetTimestamp - now;
+
+                // Mise à jour de l'horloge locale de l'utilisateur
+                if (localTimeDisplay) {
+                    localTimeDisplay.textContent = new Date().toLocaleTimeString([], { 
+                        hour: '2-digit', 
+                        minute: '2-digit',
+                        second: '2-digit'
+                    });
+                }
+
+                // Fin du compte à rebours : bascule en mode direct
+                if (difference <= 0) {
+                    titleContainer.innerHTML = `<span class="text-fuchsia-500 animate-pulse">${EVENT_CONFIG.liveMessage}</span>`;
+                    daysEl.innerText = "00";
+                    hoursEl.innerText = "00";
+                    minutesEl.innerText = "00";
+                    secondsEl.innerText = "00";
+                    return;
+                }
+
+                // Calcul mathématique des jours, heures, minutes et secondes restantes
+                const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+
+                daysEl.innerText = padZero(days);
+                hoursEl.innerText = padZero(hours);
+                minutesEl.innerTexw3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
